@@ -7,14 +7,15 @@ namespace Core.Controller
         private readonly List<ControllerBase> _children = new();
         private ControllerStates _state = ControllerStates.Created;
 
-        public ControllerBase Parent { get; private set; }
-        public ControllerResources Resources { get; private set; } = new();
+        protected ControllerBase Parent { get; private set; }
+        
+        private ControllerResources Resources { get; set; } = new();
 
-        public abstract void OnStart();
-        public abstract void OnStop();
-        public abstract void OnDispose();
+        protected abstract void OnStart();
+        protected abstract void OnStop();
+        protected abstract void OnDispose();
 
-        private void Start()
+        public void Start()
         {
             if (_state is ControllerStates.Running or ControllerStates.Disposed)
             {
@@ -25,7 +26,7 @@ namespace Core.Controller
             _state = ControllerStates.Running;
         }
 
-        private void Stop()
+        public void Stop()
         {
             if (_state != ControllerStates.Running)
             {
@@ -40,7 +41,7 @@ namespace Core.Controller
             OnStop();
         }
 
-        private void Dispose()
+        public void Dispose()
         {
             OnDispose();
             
