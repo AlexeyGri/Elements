@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f213ff497e4ff462a77319cf677cf20cc0860ca9"
+    },
     "com.unity.2d.animation": {
       "version": "9.1.0",
       "depth": 1,
@@ -94,16 +101,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.adaptiveperformance": {
-      "version": "4.0.1",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.profiling.core": "1.0.2",
-        "com.unity.subsystemregistration": "1.1.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.burst": {
       "version": "1.8.12",
       "depth": 3,
@@ -153,16 +150,6 @@
         "com.unity.2d.aseprite": "1.1.1"
       }
     },
-    "com.unity.feature.mobile": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.mobile.android-logcat": "1.4.0",
-        "com.unity.adaptiveperformance": "4.0.1",
-        "com.unity.mobile.notifications": "2.3.2"
-      }
-    },
     "com.unity.ide.rider": {
       "version": "3.0.28",
       "depth": 0,
@@ -193,38 +180,6 @@
       "depth": 2,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.mobile.android-logcat": {
-      "version": "1.4.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.mobile.notifications": {
-      "version": "2.3.2",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.androidjni": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.profiling.core": {
-      "version": "1.0.2",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.subsystemregistration": {
-      "version": "1.1.1",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.subsystems": "1.0.0"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.sysroot": {
