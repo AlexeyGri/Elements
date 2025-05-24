@@ -1,15 +1,18 @@
 using System.Collections.Generic;
+using Core.Controller.Components;
 
 namespace Core.Controller
 {
     public abstract class ControllerBase
     {
         private readonly List<ControllerBase> _children = new();
+        private readonly ControllerResources _resources = new();
+
         private ControllerStates _state = ControllerStates.Created;
 
         protected ControllerBase Parent { get; private set; }
-        
-        private ControllerResources Resources { get; set; } = new();
+
+        private IControllerResources Resources => _resources;
 
         protected abstract void OnStart();
         protected abstract void OnStop();
@@ -51,8 +54,7 @@ namespace Core.Controller
             }
 
             _children.Clear();
-            
-            Resources.Clear();
+            _resources.Clear();
 
             _state = ControllerStates.Disposed;
         }

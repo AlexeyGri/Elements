@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Core.Utility;
 using UnityEngine;
 
-namespace Core.Controller
+namespace Core.Controller.Components
 {
-    public class ControllerResources
+    public class ControllerResources : IControllerResources
     {
         private readonly List<DisposableSource> _resources = new();
 
