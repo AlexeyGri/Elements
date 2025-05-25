@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterIdle
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 90228dc14a978454585a62852c48940b, type: 3}
+    - {fileID: 2800000, guid: 8306b7645eaeb6345a29d686af67ff35, type: 3}
+    - {fileID: 2800000, guid: 4efc1397585f3564fbdb4988891fefee, type: 3}
+    - {fileID: 2800000, guid: 5b752e5854082af419bc9e15bdb094c9, type: 3}
+    - {fileID: 2800000, guid: ae68362936ab2b648a2e6ca45fbb998a, type: 3}
+    - {fileID: 2800000, guid: d5a35af484616d2479596ad2233fadd6, type: 3}
+    - {fileID: 2800000, guid: 3565e782690b6ac46b04f59c3597abd8, type: 3}
+    - {fileID: 2800000, guid: d94194f9ceb04de468c9a75f83dbc8e2, type: 3}
+    - {fileID: 2800000, guid: 229ad1acb9e912744aec1072d3ec82b8, type: 3}
+    - {fileID: 2800000, guid: 436149ab4e109b5448cd2bd2db91c8b4, type: 3}
+    - {fileID: 2800000, guid: 5a42e004f1feff8479c54da1bec81763, type: 3}
+    - {fileID: 2800000, guid: 76cd4407e3e45b441b1f78980d4c9a54, type: 3}
+    - {fileID: 2800000, guid: 43fee63d206c82f4ba08c64a2d6e6a7d, type: 3}
+    - {fileID: 2800000, guid: 68869e8c2afb68946a2a30cfcbc16b85, type: 3}
+    - {fileID: 2800000, guid: 8ef12dc9111683b43ab86330c3ce9465, type: 3}
+    - {fileID: 2800000, guid: b4541eae2be23c44888774be05fa5fa3, type: 3}
+    - {fileID: 2800000, guid: 7638667fe62f0f544a70640894de98e3, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 90228dc14a978454585a62852c48940b: 21300000
+    - 3565e782690b6ac46b04f59c3597abd8: 21300000
+    - 5a42e004f1feff8479c54da1bec81763: 21300000
+    - 8306b7645eaeb6345a29d686af67ff35: 21300000
+    - d5a35af484616d2479596ad2233fadd6: 21300000
+    - 76cd4407e3e45b441b1f78980d4c9a54: 21300000
+    - 4efc1397585f3564fbdb4988891fefee: 21300000
+    - 5b752e5854082af419bc9e15bdb094c9: 21300000
+    - ae68362936ab2b648a2e6ca45fbb998a: 21300000
+    - 8ef12dc9111683b43ab86330c3ce9465: 21300000
+    - d94194f9ceb04de468c9a75f83dbc8e2: 21300000
+    - 436149ab4e109b5448cd2bd2db91c8b4: 21300000
+    - 68869e8c2afb68946a2a30cfcbc16b85: 21300000
+    - 229ad1acb9e912744aec1072d3ec82b8: 21300000
+    - 43fee63d206c82f4ba08c64a2d6e6a7d: 21300000
+    - b4541eae2be23c44888774be05fa5fa3: 21300000
+    - 7638667fe62f0f544a70640894de98e3: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 90228dc14a978454585a62852c48940b, type: 3}
+  - {fileID: 21300000, guid: 3565e782690b6ac46b04f59c3597abd8, type: 3}
+  - {fileID: 21300000, guid: 5a42e004f1feff8479c54da1bec81763, type: 3}
+  - {fileID: 21300000, guid: 8306b7645eaeb6345a29d686af67ff35, type: 3}
+  - {fileID: 21300000, guid: d5a35af484616d2479596ad2233fadd6, type: 3}
+  - {fileID: 21300000, guid: 76cd4407e3e45b441b1f78980d4c9a54, type: 3}
+  - {fileID: 21300000, guid: 4efc1397585f3564fbdb4988891fefee, type: 3}
+  - {fileID: 21300000, guid: 5b752e5854082af419bc9e15bdb094c9, type: 3}
+  - {fileID: 21300000, guid: ae68362936ab2b648a2e6ca45fbb998a, type: 3}
+  - {fileID: 21300000, guid: 8ef12dc9111683b43ab86330c3ce9465, type: 3}
+  - {fileID: 21300000, guid: d94194f9ceb04de468c9a75f83dbc8e2, type: 3}
+  - {fileID: 21300000, guid: 436149ab4e109b5448cd2bd2db91c8b4, type: 3}
+  - {fileID: 21300000, guid: 68869e8c2afb68946a2a30cfcbc16b85, type: 3}
+  - {fileID: 21300000, guid: 229ad1acb9e912744aec1072d3ec82b8, type: 3}
+  - {fileID: 21300000, guid: 43fee63d206c82f4ba08c64a2d6e6a7d, type: 3}
+  - {fileID: 21300000, guid: b4541eae2be23c44888774be05fa5fa3, type: 3}
+  - {fileID: 21300000, guid: 7638667fe62f0f544a70640894de98e3, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - anim_water_idle_0
+  - anim_water_idle_6
+  - anim_water_idle_10
+  - anim_water_idle_1
+  - anim_water_idle_5
+  - anim_water_idle_11
+  - anim_water_idle_2
+  - anim_water_idle_3
+  - anim_water_idle_4
+  - anim_water_idle_14
+  - anim_water_idle_7
+  - anim_water_idle_9
+  - anim_water_idle_13
+  - anim_water_idle_8
+  - anim_water_idle_12
+  - anim_water_idle_15
+  - anim_water_idle_16
+  m_RenderDataMap: {}
+  m_Tag: WaterIdle
+  m_IsVariant: 0
