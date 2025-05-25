@@ -1,0 +1,91 @@
+﻿using System;
+using System.Threading;
+using Core.Controller;
+using Core.Extensions;
+using Cysharp.Threading.Tasks;
+using Game.EventBus;
+using Game.Infra.Events;
+using UnityEngine;
+
+namespace Game.Infra
+{
+    public class MyRootController : RootController
+    {
+        private readonly IControllerFactory _controllerFactory;
+        private readonly IEventBus _eventBus;
+
+        private InitializeController _initializeController;
+        private GameController _gameController;
+        
+        public MyRootController(IControllerFactory controllerFactory, IEventBus eventBus)
+        {
+            _controllerFactory = controllerFactory;
+            _eventBus = eventBus;
+        }
+        
+        protected override async void OnStart()
+        {
+            Debug.Log("OnStart");
+            
+            try
+            {
+                var initializeTask = await TryInitializeGameAsync(Token).SuppressCancellationThrow();
+                if (initializeTask.IsCanceled || !initializeTask.Result)
+                {
+                    Stop();
+                    Dispose();
+                    
+                    return;
+                }
+
+                RunGameController();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+            finally
+            {
+                Stop();
+                Dispose();
+            }
+        }
+
+        protected override void OnStop()
+        {
+            Debug.Log("OnStop");
+            
+            RemoveController(_initializeController);
+        }
+
+        protected override void OnDispose()
+        {
+            Debug.Log("OnDispose");
+        }
+
+        private UniTask<bool> TryInitializeGameAsync(CancellationToken token)
+        {
+            var taskCompletionSource = new UniTaskCompletionSource<bool>().WithToken(token);
+            _eventBus.Subscribe<ResourcesPreloadedEvent>(OnResourcesPreloadedWithResult);
+            
+            _initializeController = _controllerFactory.CrateController<InitializeController>();
+            AddController(_initializeController);
+
+            return taskCompletionSource.Task;
+
+            void OnResourcesPreloadedWithResult(ResourcesPreloadedEvent e)
+            {
+                _eventBus.Unsubscribe<ResourcesPreloadedEvent>(OnResourcesPreloadedWithResult);
+                
+                taskCompletionSource.TrySetResult(e.IsPreloaded);
+            }
+        }
+
+        private void RunGameController()
+        {
+            _gameController = _controllerFactory.CrateController<GameController>();
+            
+            AddController(_gameController);
+        }
+    }
+}

@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using System.Threading;
+using Zenject;
 
 namespace Core.Controller
 {
@@ -6,6 +7,14 @@ namespace Core.Controller
     {
         [Inject]
         private DiContainer _container;
+        
+        public T CrateRoot<T>(CancellationToken token) where T : RootController
+        {
+            var root = _container.Resolve<T>();
+            root.SetCancellationToken(token);
+
+            return root;
+        }
 
         public T CrateController<T>() where T : ControllerBase
         {

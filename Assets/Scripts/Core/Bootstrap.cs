@@ -1,6 +1,5 @@
-﻿using System;
-using Core.Controller;
-using Game;
+﻿using Core.Controller;
+using Game.Infra;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +12,7 @@ namespace Core
         [Inject]
         public void Construct(IControllerFactory controllerFactory)
         {
-            _root = controllerFactory.CrateController<RootController>();
+            _root = controllerFactory.CrateRoot<MyRootController>(Application.exitCancellationToken);
         }
 
         private void Start()
@@ -21,9 +20,13 @@ namespace Core
             _root.Start();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _root.Stop();
+        }
+
+        private void OnDestroy()
+        {
             _root.Dispose();
         }
     }

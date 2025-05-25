@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Core.Controller.Components;
 
 namespace Core.Controller
@@ -10,7 +11,10 @@ namespace Core.Controller
 
         private ControllerStates _state = ControllerStates.Created;
 
+        protected CancellationTokenSource _cancellationTokenSource;
+
         protected ControllerBase Parent { get; private set; }
+        protected CancellationToken Token => _cancellationTokenSource.Token;
 
         private IControllerResources Resources => _resources;
 
@@ -46,28 +50,36 @@ namespace Core.Controller
 
         public void Dispose()
         {
-            OnDispose();
+            if (_state == ControllerStates.Disposed)
+            {
+                return;
+            }
+            
+            _cancellationTokenSource.Cancel();
             
             foreach (var child in _children)
             {
                 child.Dispose();
             }
+            
+            OnDispose();
 
             _children.Clear();
             _resources.Clear();
-
+            
             _state = ControllerStates.Disposed;
         }
 
-        public void AddController(ControllerBase controller)
+        protected void AddController(ControllerBase controller)
         {
             _children.Add(controller);
             controller.Parent = this;
+            controller._cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(Token);
             
             controller.Start();
         }
 
-        public void RemoveController(ControllerBase controller, bool withDispose = true)
+        protected void RemoveController(ControllerBase controller, bool withDispose = true)
         {
             if (controller == null)
             {
@@ -87,6 +99,14 @@ namespace Core.Controller
 
             _children.Remove(controller);
             controller.Parent = null;
+        }
+    }
+
+    public abstract class RootController : ControllerBase
+    {
+        public void SetCancellationToken(CancellationToken token)
+        {
+            _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
         }
     }
     
