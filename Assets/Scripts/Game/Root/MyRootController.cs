@@ -14,8 +14,8 @@ namespace Game.Infra
         private readonly IControllerFactory _controllerFactory;
         private readonly IEventBus _eventBus;
 
-        private InitializeController _initializeController;
-        private GameController _gameController;
+        private ControllerBase _initializeController;
+        private ControllerBase _gameController;
         
         public MyRootController(IControllerFactory controllerFactory, IEventBus eventBus)
         {
@@ -38,7 +38,8 @@ namespace Game.Infra
                     return;
                 }
 
-                RunGameController();
+                _gameController = _controllerFactory.CrateController<GameController>();
+                AddController(_gameController);
             }
             catch (Exception e)
             {
@@ -66,6 +67,7 @@ namespace Game.Infra
         private UniTask<bool> TryInitializeGameAsync(CancellationToken token)
         {
             var taskCompletionSource = new UniTaskCompletionSource<bool>().WithToken(token);
+            
             _eventBus.Subscribe<ResourcesPreloadedEvent>(OnResourcesPreloadedWithResult);
             
             _initializeController = _controllerFactory.CrateController<InitializeController>();
@@ -79,13 +81,6 @@ namespace Game.Infra
                 
                 taskCompletionSource.TrySetResult(e.IsPreloaded);
             }
-        }
-
-        private void RunGameController()
-        {
-            _gameController = _controllerFactory.CrateController<GameController>();
-            
-            AddController(_gameController);
         }
     }
 }

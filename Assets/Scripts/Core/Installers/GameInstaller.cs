@@ -1,6 +1,8 @@
 ﻿using Core.Controller;
-using Game;
 using Game.EventBus;
+using Game.Features.Levels;
+using Game.Features.UI;
+using Game.Featuries.Background;
 using Game.Infra;
 using Game.Services;
 using Zenject;
@@ -28,6 +30,9 @@ namespace Core.Installers
             Container.Bind<MyRootController>().FromNew().AsSingle();
             Container.Bind<InitializeController>().FromNew().AsSingle();
             Container.Bind<GameController>().FromNew().AsSingle();
+            Container.Bind<BackgroundController>().FromNew().AsSingle();
+            Container.Bind<InterfaceController>().FromNew().AsSingle();
+            Container.Bind<LevelsController>().FromNew().AsSingle();
         }
     }
 }
