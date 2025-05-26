@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 3ddbb3ff30d50124e80af2d60648b379, type: 2}
+    - target: {fileID: 1060392301697019703, guid: c2d9c3008f8f42e4693bffd752748255, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1060392301697019703, guid: c2d9c3008f8f42e4693bffd752748255, type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1060392301697019703, guid: c2d9c3008f8f42e4693bffd752748255, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 90228dc14a978454585a62852c48940b, type: 3}
+    - target: {fileID: 1060392301697019703, guid: c2d9c3008f8f42e4693bffd752748255, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1449705088786083358, guid: c2d9c3008f8f42e4693bffd752748255, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.7012496
@@ -54,7 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2012953452134076041, guid: c2d9c3008f8f42e4693bffd752748255, type: 3}
       propertyPath: m_Name
-      value: Wather Variant
+      value: Wather
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415829802357491573, guid: c2d9c3008f8f42e4693bffd752748255, type: 3}
+      propertyPath: _id
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
