@@ -24,7 +24,8 @@ namespace Core.Installers
             
             Container.Bind<IControllerFactory>().To<ControllerFactory>().FromNew().AsSingle();
             Container.Bind<IBundleProvider>().To<ResourceProvider>().FromNew().AsCached();
-            Container.Bind<IPool>().To<Pool>().FromNew().AsSingle();
+            
+            Container.Bind<TouchScreenInput>().AsSingle();
         }
 
         private void BindControllers()

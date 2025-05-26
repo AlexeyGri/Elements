@@ -1,0 +1,54 @@
+{
+    "name": "TouchScreenInput",
+    "maps": [
+        {
+            "name": "Touch",
+            "id": "2578173f-33e1-4877-9c39-ca1077e4efa0",
+            "actions": [
+                {
+                    "name": "TouchInput",
+                    "type": "Value",
+                    "id": "56ad5140-3544-455b-9582-41ea58247669",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SwipeInput",
+                    "type": "Value",
+                    "id": "ac5b279c-925d-4a79-b1f2-11a65ea3866d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "143176fc-455c-4c2e-93da-84b29df00c56",
+                    "path": "<Touchscreen>/primaryTouch/startPosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c946204d-0967-4b72-a173-bffa11971011",
+                    "path": "<Touchscreen>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwipeInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

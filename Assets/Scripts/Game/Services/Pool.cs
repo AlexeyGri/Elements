@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Controller.Components;
 using Core.Utility;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Game.Services
 {
-    public class Pool : IPool
+    public class Pool : IPool, IDisposable
     {
-        private readonly Dictionary<string, Object> _assets;
-        private readonly Dictionary<string, List<Object>> _instances;
+        private readonly Dictionary<string, Object> _assets = new();
+        private readonly Dictionary<string, List<Object>> _instances = new();
         
         public void AddAsset<T>(string path, T asset) where T : Object
         {
@@ -67,6 +69,18 @@ namespace Game.Services
 
             instance = obj;
             return true;
+        }
+
+        public void Dispose()
+        {
+            _assets.Clear();
+
+            foreach (var instance in _instances.Values.SelectMany(instances => instances))
+            {
+                Object.Destroy(instance);
+            }
+            
+            _instances.Clear();
         }
     }
 }
