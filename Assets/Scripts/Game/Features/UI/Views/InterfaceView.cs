@@ -5,33 +5,51 @@ public class InterfaceView : MonoBehaviour
 {
     [SerializeField] private UIDocument _ui;
 
-    private Button _restart;
-    private Button _next;
+    private Button _restartBtn;
+    private Button _nextBtn;
     
     private void Start()
     {
         var root = _ui.rootVisualElement;
         
-        _restart = root.Q<Button>("RestartBtn");
-        _next = root.Q<Button>("NextBtn");
+        _restartBtn = root.Q<Button>("RestartBtn");
+        _nextBtn = root.Q<Button>("NextBtn");
 
-        _restart.clicked += OnRestartClicked;
-        _next.clicked += OnNextClicked;
+        _restartBtn.clicked += OnRestartBtnClicked;
+        _nextBtn.clicked += OnNextBtnClicked;
     }
 
-    private void OnNextClicked()
+    public void Show()
     {
-        Debug.Log("Next");
+        _restartBtn.AddToClassList("button-left--show");
+        _nextBtn.AddToClassList("button-right--show");
+        
+        _restartBtn.clicked += OnRestartBtnClicked;
+        _nextBtn.clicked += OnNextBtnClicked;
     }
 
-    private void OnRestartClicked()
+    public void Hide()
     {
-        Debug.Log("Restart");
+        _restartBtn.clicked -= OnRestartBtnClicked;
+        _nextBtn.clicked -= OnNextBtnClicked;
+        
+        _restartBtn.RemoveFromClassList("button-left--show");
+        _nextBtn.RemoveFromClassList("button-right--show");
+    }
+
+    private void OnNextBtnClicked()
+    {
+        Hide();
+    }
+
+    private void OnRestartBtnClicked()
+    {
+        Hide();
     }
 
     private void OnDestroy()
     {
-        _restart.clicked -= OnRestartClicked;
-        _next.clicked -= OnNextClicked;
+        _restartBtn.clicked -= OnRestartBtnClicked;
+        _nextBtn.clicked -= OnNextBtnClicked;
     }
 }
