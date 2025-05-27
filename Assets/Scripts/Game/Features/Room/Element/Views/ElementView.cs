@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Features.Room.Element.Views
 {
-    public class ElementView : MonoBehaviour
+    public class ElementView : MonoBehaviour, IElementView
     {
         [SerializeField] private int _id;
         [Space]

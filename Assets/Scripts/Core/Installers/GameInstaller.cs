@@ -20,7 +20,7 @@ namespace Core.Installers
 
         private void BindServices()
         {
-            Container.Bind<IEventBus>().To<EventBus>().FromNew().AsTransient().NonLazy();
+            Container.Bind<IEventBus>().To<EventBus>().FromNew().AsSingle().NonLazy();
             
             Container.Bind<IControllerFactory>().To<ControllerFactory>().FromNew().AsSingle();
             Container.Bind<IBundleProvider>().To<ResourceProvider>().FromNew().AsCached();

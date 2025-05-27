@@ -13,6 +13,7 @@ namespace Game.Infra
     {
         private readonly IControllerFactory _controllerFactory;
         private readonly IEventBus _eventBus;
+        private readonly UniTaskCompletionSource _completion = new();
 
         private ControllerBase _initializeController;
         private ControllerBase _gameController;
@@ -26,6 +27,7 @@ namespace Game.Infra
         protected override async void OnStart()
         {
             Debug.Log("OnStart");
+            _completion.WithToken(Token);
             
             try
             {
@@ -40,6 +42,8 @@ namespace Game.Infra
 
                 _gameController = _controllerFactory.CrateController<GameController>();
                 AddController(_gameController);
+
+                await _completion.Task.SuppressCancellationThrow();
             }
             catch (Exception e)
             {
@@ -78,6 +82,8 @@ namespace Game.Infra
             void OnResourcesPreloadedWithResult(ResourcesPreloadedEvent e)
             {
                 _eventBus.Unsubscribe<ResourcesPreloadedEvent>(OnResourcesPreloadedWithResult);
+                
+                RemoveController(_initializeController);
                 
                 taskCompletionSource.TrySetResult(e.IsPreloaded);
             }

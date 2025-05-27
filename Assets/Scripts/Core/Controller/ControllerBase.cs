@@ -16,7 +16,7 @@ namespace Core.Controller
         protected ControllerBase Parent { get; private set; }
         protected CancellationToken Token => _cancellationTokenSource.Token;
 
-        private IControllerResources Resources => _resources;
+        protected IControllerResources ControllerResources => _resources;
 
         protected abstract void OnStart();
         protected abstract void OnStop();

@@ -22,13 +22,13 @@ namespace Game.Services
 
         public async UniTask<T> LoadAssetAsync<T>(string path, CancellationToken token) where T : Object
         {
-            var asset = await LoaAsync<T>(path, token);
-            if (token.IsCancellationRequested)
+            var loadOperation = await LoaAsync<T>(path, token).SuppressCancellationThrow();
+            if (loadOperation.IsCanceled)
             {
                 return default;
             }
 
-            return asset;
+            return loadOperation.Result;
         }
 
         public T GetInstanceFromPool<T>(IControllerResources resources, string path) where T : Object
@@ -40,18 +40,18 @@ namespace Game.Services
 
         public async UniTask<T> GetInstanceFromPoolAsync<T>(IControllerResources resources, string path, CancellationToken token) where T : Object
         {
-            var prefab = await LoaAsync<T>(path, token);
-            if (token.IsCancellationRequested)
+            var loadOperation = await LoaAsync<T>(path, token).SuppressCancellationThrow();
+            if (loadOperation.IsCanceled)
             {
                 return default;
             }
 
-            return Instantiate<T>(resources, prefab as GameObject, path);
+            return Instantiate<T>(resources, loadOperation.Result as GameObject, path);
         }
 
         private T Load<T>(string path) where T : Object
         {
-            if (_pool.TryGetAsset<T>(path, out var asset))
+            if (_pool.TryGetAsset<T>(path, out var asset) && asset != null)
             {
                 return asset;
             }
@@ -64,7 +64,7 @@ namespace Game.Services
         
         private async UniTask<T> LoaAsync<T>(string path, CancellationToken token) where T : Object
         {
-            if (_pool.TryGetAsset<T>(path, out var asset))
+            if (_pool.TryGetAsset<T>(path, out var asset) && asset != null)
             {
                 return asset;
             }
@@ -77,7 +77,7 @@ namespace Game.Services
 
         private T Instantiate<T>(IControllerResources resources, GameObject prefab, string key) where T : Object
         {
-            if (_pool.TryGetInstance<T>(resources, key, out var instance))
+            if (_pool.TryGetInstance<T>(resources, key, out var instance) && instance != null)
             {
                 return instance as T;
             }

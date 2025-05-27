@@ -1,14 +1,18 @@
+using System;
+using Game.Features.UI.Views;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InterfaceView : MonoBehaviour
+public class InterfaceView : MonoBehaviour, IInterfaceView
 {
     [SerializeField] private UIDocument _ui;
 
     private Button _restartBtn;
     private Button _nextBtn;
+
+    public GameObject GameObject => gameObject;
     
-    private void Start()
+    private void Awake()
     {
         var root = _ui.rootVisualElement;
         
@@ -17,6 +21,12 @@ public class InterfaceView : MonoBehaviour
 
         _restartBtn.clicked += OnRestartBtnClicked;
         _nextBtn.clicked += OnNextBtnClicked;
+    }
+
+    // show button when level loaded
+    private void Start()
+    {
+        Show();
     }
 
     public void Show()
