@@ -9,7 +9,6 @@ namespace Game.Services
     {
         T LoadAsset<T>(string path) where T : Object;
         UniTask<T> LoadAssetAsync<T>(string path, CancellationToken token) where T : Object;
-        T GetInstanceFromPool<T>(IControllerResources resources, string path) where T : Object;
-        UniTask<T> GetInstanceFromPoolAsync<T>(IControllerResources resources, string path, CancellationToken token) where T : Object;
+        (bool, T) TryGetInstanceFromPool<T>(IControllerResources resources, string path) where T : Object;
     }
 }

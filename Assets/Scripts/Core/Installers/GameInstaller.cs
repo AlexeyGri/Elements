@@ -38,6 +38,8 @@ namespace Core.Installers
             Container.Bind<BackgroundController>().FromNew().AsSingle();
             Container.Bind<InterfaceController>().FromNew().AsSingle();
             Container.Bind<LevelsController>().FromNew().AsSingle();
+            
+            Container.Bind<LevelController>().FromNew().AsTransient();
         }
     }
 }

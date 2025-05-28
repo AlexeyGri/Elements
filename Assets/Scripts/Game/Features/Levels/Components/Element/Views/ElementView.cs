@@ -1,23 +1,35 @@
-﻿using DG.Tweening;
-using Game.Features.Room.Cell.Models;
+﻿using Core.Views;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using Game.Features.Levels.Components.Element.Models;
 using UnityEngine;
 
-namespace Game.Features.Room.Element.Views
+namespace Game.Features.Levels.Components.Element.Views
 {
-    public class ElementView : MonoBehaviour, IElementView
+    public class ElementView : ViewBase, IElementView
     {
-        [SerializeField] private int _id;
         [Space]
         [SerializeField] private Transform _transform;
         [SerializeField] private Animator _animator;
-
-        private Tween _moveDown;
-        private Tween _moveUp;
-        private Tween _moveLeft;
-        private Tween _moveRight;
-
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        
         private static readonly int IsAlive = Animator.StringToHash("IsAlive");
 
+        private ElementModel _model;
+        
+        public int Id => _model.Id;
+        public int Order => _spriteRenderer.sortingOrder;
+
+        public void Setup(ElementModel model, int order)
+        {
+            _model = model;
+            
+            _spriteRenderer.sortingOrder = order;
+            
+            _animator.runtimeAnimatorController = model.AnimatorController;
+            _spriteRenderer.sprite = model.Sprite;
+        }
+        
         public void Show()
         {
             _animator.SetBool(IsAlive, true);
@@ -34,7 +46,7 @@ namespace Game.Features.Room.Element.Views
             _animator.SetBool(IsAlive, false);
         }
 
-        public void MoveTo(Directions direction, float target)
+        public async void MoveTo(Directions direction, float target, int order)
         {
             switch (direction)
             {
@@ -51,6 +63,10 @@ namespace Game.Features.Room.Element.Views
                     _transform.DOMoveX(-target, 1f).Play();
                     break;
             }
+
+            await UniTask.Delay(500);
+
+            _spriteRenderer.sortingOrder = order;
         }
     }
 }

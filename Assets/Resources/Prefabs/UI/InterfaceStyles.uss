@@ -42,5 +42,5 @@
 }
 
 .button-base:active {
-    scale: 0.9 1;
+    scale: 0.8 1;
 }

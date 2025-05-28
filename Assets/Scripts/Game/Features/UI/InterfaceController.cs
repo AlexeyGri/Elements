@@ -1,4 +1,5 @@
 ﻿using Core.Controller;
+using Core.Extensions;
 using Core.Utility;
 using Game.Features.UI.Views;
 using Game.Services;
@@ -8,8 +9,6 @@ namespace Game.Features.UI
 {
     public class InterfaceController : ControllerBase
     {
-        private const string InterfacePath = "Prefabs/UI/UI";
-        
         private readonly IBundleProvider _bundleProvider;
 
         private IInterfaceView _interfaceView;
@@ -21,10 +20,13 @@ namespace Game.Features.UI
         
         protected override async void OnStart()
         {
-            var prefab = await _bundleProvider.LoadAssetAsync<InterfaceView>(InterfacePath, Token);
-            _interfaceView = Object.Instantiate(prefab);
-            
-            ControllerResources.Add(new DisposableSource(() => Object.Destroy(_interfaceView.GameObject)));
+            var prefab = await _bundleProvider.LoadAssetAsync<InterfaceView>(ResourcePaths.InterfacePath, Token);
+            if (Token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            _interfaceView = this.Instantiate(ControllerResources, prefab);
         }
 
         protected override void OnStop()

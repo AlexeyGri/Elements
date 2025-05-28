@@ -1,16 +1,15 @@
-using System;
+using Core.Views;
+using Cysharp.Threading.Tasks;
 using Game.Features.UI.Views;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InterfaceView : MonoBehaviour, IInterfaceView
+public class InterfaceView : ViewBase, IInterfaceView
 {
     [SerializeField] private UIDocument _ui;
 
     private Button _restartBtn;
     private Button _nextBtn;
-
-    public GameObject GameObject => gameObject;
     
     private void Awake()
     {
@@ -23,7 +22,7 @@ public class InterfaceView : MonoBehaviour, IInterfaceView
         _nextBtn.clicked += OnNextBtnClicked;
     }
 
-    // show button when level loaded
+    // test:show button when level loaded
     private void Start()
     {
         Show();
@@ -47,14 +46,22 @@ public class InterfaceView : MonoBehaviour, IInterfaceView
         _nextBtn.RemoveFromClassList("button-right--show");
     }
 
-    private void OnNextBtnClicked()
+    private async void OnNextBtnClicked()
     {
         Hide();
+        
+        //test
+        await UniTask.Delay(1000);
+        Show();
     }
 
-    private void OnRestartBtnClicked()
+    private async void OnRestartBtnClicked()
     {
         Hide();
+        
+        //test
+        await UniTask.Delay(1000);
+        Show();
     }
 
     private void OnDestroy()

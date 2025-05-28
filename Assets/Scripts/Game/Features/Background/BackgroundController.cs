@@ -1,4 +1,5 @@
 ﻿using Core.Controller;
+using Core.Extensions;
 using Core.Utility;
 using Game.Features.Background.Views;
 using Game.Services;
@@ -8,8 +9,6 @@ namespace Game.Featuries.Background
 {
     public class BackgroundController : ControllerBase
     {
-        private const string BackgroundPath = "Prefabs/UI/BackgroundCanvas";
-        
         private readonly IBundleProvider _bundleProvider;
 
         private IBackGroundView _backGroundView;
@@ -21,10 +20,13 @@ namespace Game.Featuries.Background
         
         protected override async void OnStart()
         {
-            var prefab = await _bundleProvider.LoadAssetAsync<BackGroundView>(BackgroundPath, Token);
-            _backGroundView = Object.Instantiate(prefab);
+            var prefab = await _bundleProvider.LoadAssetAsync<BackGroundView>(ResourcePaths.BackgroundPath, Token);
+            if (Token.IsCancellationRequested)
+            {
+                return;
+            }
             
-            ControllerResources.Add(new DisposableSource(() => Object.Destroy(_backGroundView.GameObject)));
+            _backGroundView = this.Instantiate(ControllerResources, prefab);
         }
 
         protected override void OnStop()

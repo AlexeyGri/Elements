@@ -1,4 +1,4 @@
-﻿namespace Game.Features.Room.Cell.Models
+﻿namespace Game.Features.Levels.Components.Element.Models
 {
     public enum Directions
     {
