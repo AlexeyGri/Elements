@@ -9,6 +9,6 @@ namespace Game.Services
         bool TryGetAsset<T>(string path, out T asset) where T : Object;
 
         void AddInstance<T>(string key, T instance) where T : Object;
-        bool TryGetInstance<T>(IControllerResources resources, string key, out GameObject instance) where T : Object;
+        bool TryGetInstance<T>(IControllerResources resources, string key, out T instance) where T : Object;
     }
 }

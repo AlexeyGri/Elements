@@ -1,4 +1,5 @@
-﻿using Core.Views;
+﻿using System.Drawing;
+using Core.Views;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game.Features.Levels.Components.Element.Models;
@@ -20,20 +21,31 @@ namespace Game.Features.Levels.Components.Element.Views
         public int Id => _model.Id;
         public int Order => _spriteRenderer.sortingOrder;
 
-        public void Setup(ElementModel model, int order)
+        public void Initialize(ElementModel model)
         {
             _model = model;
-            
-            _spriteRenderer.sortingOrder = order;
             
             _animator.runtimeAnimatorController = model.AnimatorController;
             _spriteRenderer.sprite = model.Sprite;
         }
+
+        public void Setup(System.Numerics.Vector3 position, float size, int order)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Setup(Vector2 position, float size, int order)
+        {
+            _transform.position = position;
+            var center = _spriteRenderer.bounds.center;
+            _spriteRenderer.bounds = new Bounds(center, new Vector2(size, size));
+            _spriteRenderer.sortingOrder = order;
+        }
         
         public void Show()
         {
-            _animator.SetBool(IsAlive, true);
             _transform.gameObject.SetActive(true);
+            SetAlive(true);
         }
 
         public void Hide()
@@ -43,7 +55,7 @@ namespace Game.Features.Levels.Components.Element.Views
 
         public void ShowDestroy()
         {
-            _animator.SetBool(IsAlive, false);
+            SetAlive(false);
         }
 
         public async void MoveTo(Directions direction, float target, int order)
@@ -67,6 +79,16 @@ namespace Game.Features.Levels.Components.Element.Views
             await UniTask.Delay(500);
 
             _spriteRenderer.sortingOrder = order;
+        }
+
+        private void SetAlive(bool isAlive)
+        {
+            if (Id < 0)
+            {
+                return;
+            }
+            
+            _animator.SetBool(IsAlive, isAlive);
         }
     }
 }

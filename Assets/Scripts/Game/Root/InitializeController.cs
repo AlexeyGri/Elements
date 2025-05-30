@@ -1,5 +1,6 @@
 ﻿using Core.Controller;
 using Game.EventBus;
+using Game.Features.Levels.Components.Element.Views;
 using Game.Infra.Events;
 using Game.Services;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Game.Infra
 
         protected override async void OnStart()
         {
-            var loadPrefabsOperation = await _bundleProvider.LoadAssetAsync<GameObject>(ResourcePaths.ElementPath, Token)
+            var loadPrefabsOperation = await _bundleProvider.LoadAssetAsync<ElementView>(ResourcePaths.ElementPath, Token)
                 .SuppressCancellationThrow();
             if (loadPrefabsOperation.IsCanceled)
             {
@@ -31,7 +32,7 @@ namespace Game.Infra
 
             for (var i = 0; i < ElementPreloadCount; i++)
             {
-                _bundleProvider.TryGetInstanceFromPool<GameObject>(ControllerResources, ResourcePaths.ElementPath);
+                _bundleProvider.TryGetInstanceFromPool<ElementView>(ControllerResources, ResourcePaths.ElementPath);
             }
 
             _eventBus.Invoke(new ResourcesPreloadedEvent(true));

@@ -20,7 +20,7 @@ namespace Game.Features.Levels
         {
             _bundleProvider = bundleProvider;
         }
-        
+
         public void SetArgs(LevelModel model)
         {
             _model = model;
@@ -38,37 +38,45 @@ namespace Game.Features.Levels
             _gridView.Setup(_model.GridModel);
 
             GetViews();
+            CreateGrid();
         }
 
+        protected override void OnStop()
+        {
+            foreach (var elementView in _elementViews)
+            {
+                elementView.Hide();
+            }
+        }
+
+        protected override void OnDispose()
+        {
+        }
+        
         private void GetViews()
         {
             _elementViews = new IElementView[_model.GridModel.Columns * _model.GridModel.Rows];
 
             for (var i = 0; i < _model.ElementModels.Count; i++)
             {
-                var element = _model.ElementModels[i];
-                if (element.Id < 0)
+                var operationResult =
+                    _bundleProvider.TryGetInstanceFromPool<ElementView>(ControllerResources, ResourcePaths.ElementPath);
+                if (operationResult.Item1)
                 {
-                    continue;
+                    _elementViews[i] = operationResult.Item2;
+                    _elementViews[i].Initialize(_model.ElementModels[i]);
                 }
-                
-                var operationResult = _bundleProvider.TryGetInstanceFromPool<GameObject>(ControllerResources, ResourcePaths.ElementPath);
-                 if (operationResult.Item1)
-                 {
-                     _elementViews[i] = operationResult.Item2.GetComponent<ElementView>();
-                     _elementViews[i].Setup(element, i);
-                     
-                     _elementViews[i].Show();
-                 }
             }
         }
 
-        protected override void OnStop()
+        private void CreateGrid()
         {
-        }
-
-        protected override void OnDispose()
-        {
+            var cells = _gridView.Cells;
+            for (var i = 0; i < cells.Count; i++)
+            {
+                _elementViews[i].Setup(cells[i].Position, _gridView.CellsSize, i);
+                _elementViews[i].Show();
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Controller.Components;
 using Core.Utility;
+using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -44,7 +45,7 @@ namespace Game.Services
             }
         }
 
-        public bool TryGetInstance<T>(IControllerResources resources, string key, out GameObject instance) where T : Object
+        public bool TryGetInstance<T>(IControllerResources resources, string key, out T instance) where T : Object
         {
             instance = default;
 
@@ -53,7 +54,7 @@ namespace Game.Services
                 return false;
             }
             
-            var obj = instances.FirstOrDefault() as GameObject;
+            var obj = instances.FirstOrDefault();
             if (obj == null)
             {
                 return false;
@@ -63,11 +64,11 @@ namespace Game.Services
                 
             resources.Add(new DisposableSource(() =>
             {
-                obj.SetActive(false);
+                obj.GameObject().SetActive(false);
                 instances.Add(obj);
             }));
 
-            instance = obj;
+            instance = obj as T;
             return true;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Game.Features.Levels.Components.Element.Models;
+using UnityEngine;
 
 namespace Game.Features.Levels.Components.Element.Views
 {
@@ -7,7 +8,8 @@ namespace Game.Features.Levels.Components.Element.Views
         public int Id { get; }
         int Order { get; }
         
-        void Setup(ElementModel model, int order);
+        void Initialize(ElementModel model);
+        void Setup(Vector2 position, float size, int order);
         void Show();
         void Hide();
         void ShowDestroy();

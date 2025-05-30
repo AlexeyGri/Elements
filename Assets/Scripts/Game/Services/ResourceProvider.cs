@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Core.Controller.Components;
+using Core.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -30,11 +31,11 @@ namespace Game.Services
             return loadOperation.Result;
         }
 
-        public (bool, T) TryGetInstanceFromPool<T>(IControllerResources resources, string path) where T : Object
+        public (bool, T) TryGetInstanceFromPool<T>(IControllerResources resources, string path) where T : ViewBase
         {
             if (_pool.TryGetInstance<T>(resources, path, out var instance))
             {
-                return (true, instance.GetComponent<T>());
+                return (true, instance);
             }
 
             if (!_pool.TryGetAsset<T>(path, out var prefab) || prefab == null)
@@ -42,7 +43,7 @@ namespace Game.Services
                 return (false, default);
             }
 
-            return (true, Instantiate<T>(resources, prefab as GameObject, path));
+            return (true, Instantiate<T>(resources, prefab, path));
         }
 
         private T Load<T>(string path) where T : Object
@@ -71,14 +72,15 @@ namespace Game.Services
             return asset;
         }
 
-        private T Instantiate<T>(IControllerResources resources, GameObject prefab, string key) where T : Object
+        private T Instantiate<T>(IControllerResources resources, T prefab, string key)
+            where T : ViewBase
         {
             var instance = Object.Instantiate(prefab);
-            instance.SetActive(false);
+            instance.GameObject.SetActive(false);
             _pool.AddInstance(key, instance);
 
-            _pool.TryGetInstance<T>(resources, key, out instance);
-            return instance as T;
+            _pool.TryGetInstance(resources, key, out instance);
+            return instance;
         }
     }
 }

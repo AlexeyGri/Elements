@@ -46,6 +46,7 @@ namespace Core.Controller
             }
 
             OnStop();
+            _state = ControllerStates.Stopped;
         }
 
         public void Dispose()
@@ -90,7 +91,6 @@ namespace Core.Controller
             {
                 controller.Stop();
             }
-
 
             if (withDispose && controller._state is ControllerStates.Stopped or ControllerStates.Created)
             {

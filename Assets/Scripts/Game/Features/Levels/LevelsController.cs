@@ -42,6 +42,8 @@ namespace Game.Features.Levels
             while (!Token.IsCancellationRequested)
             {
                 CreateLevel();
+                
+                _eventBus.Invoke(new LevelLoadedEvent());
 
                 await WaitLevelResult();
                 
@@ -97,7 +99,10 @@ namespace Game.Features.Levels
             {
                 case LevelResults.Finished:
                 case LevelResults.Next:
-                    _currentLevel++;
+                    if (++_currentLevel >= _levels.Count)
+                    {
+                        _currentLevel = 0;
+                    }
                     break;
                 case LevelResults.Restart:
                     break;
