@@ -48,6 +48,7 @@ MonoBehaviour:
   _transform: {fileID: 1449705088786083358}
   _animator: {fileID: 2581430897914748312}
   _spriteRenderer: {fileID: 1815936852835505}
+  _moveSpeedS: 0.5
 --- !u!1 &7552054520988506702
 GameObject:
   m_ObjectHideFlags: 0

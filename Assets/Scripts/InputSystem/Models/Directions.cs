@@ -1,4 +1,4 @@
-﻿namespace Game.Features.Levels.Components.Element.Models
+﻿namespace InputSystem.Models
 {
     public enum Directions
     {

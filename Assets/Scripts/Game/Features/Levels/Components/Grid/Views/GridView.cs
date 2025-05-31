@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.Views;
 using Game.Features.Levels.Components.Grid.Models;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace Game.Features.Levels.Components.Grid.Views
 
         public List<CellModel> Cells { get; private set; }
         public float CellsSize { get; private set; }
+
+        public event Action PauseClicked = delegate { };
 
         public void Setup(GridModel model)
         {
@@ -39,11 +42,16 @@ namespace Game.Features.Levels.Components.Grid.Views
                 for (var j = 0; j < _model.Columns; j++)
                 {
                     var cellPosition = new Vector2(_startPosition.x + j * _offset, rowPosition);
-                    var cell = new CellModel(cellPosition, CellsSize);
+                    var cell = new CellModel(cellPosition, _offset);
                     
                     Cells.Add(cell);
                 }
             }
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            PauseClicked.Invoke();
         }
     }
 }

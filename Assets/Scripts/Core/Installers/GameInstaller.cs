@@ -5,6 +5,7 @@ using Game.Features.UI;
 using Game.Featuries.Background;
 using Game.Infra;
 using Game.Services;
+using InputSystem;
 using Zenject;
 using ResourceProvider = Game.Services.ResourceProvider;
 
@@ -26,6 +27,7 @@ namespace Core.Installers
             Container.Bind<IBundleProvider>().To<ResourceProvider>().FromNew().AsCached();
 
             Container.BindInterfacesTo<Pool>().AsSingle();
+            Container.BindInterfacesTo<InputManager>().AsSingle();
             
             Container.Bind<TouchScreenInput>().AsSingle();
         }

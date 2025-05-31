@@ -61,7 +61,7 @@ public partial class @TouchScreenInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c946204d-0967-4b72-a173-bffa11971011"",
-                    ""path"": ""<Touchscreen>/delta"",
+                    ""path"": ""<Touchscreen>/primaryTouch/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

@@ -26,7 +26,6 @@ namespace Game.Infra
         
         protected override async void OnStart()
         {
-            Debug.Log("OnStart");
             _completion.WithToken(Token);
             
             try
@@ -58,14 +57,11 @@ namespace Game.Infra
 
         protected override void OnStop()
         {
-            Debug.Log("OnStop");
-            
             RemoveController(_initializeController);
         }
 
         protected override void OnDispose()
         {
-            Debug.Log("OnDispose");
         }
 
         private UniTask<bool> TryInitializeGameAsync(CancellationToken token)
