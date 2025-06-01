@@ -9,8 +9,6 @@ namespace Game.Featuries.Background
     {
         private readonly IBundleProvider _bundleProvider;
 
-        private IBackGroundView _backGroundView;
-        
         public BackgroundController(IBundleProvider bundleProvider)
         {
             _bundleProvider = bundleProvider;
@@ -24,7 +22,7 @@ namespace Game.Featuries.Background
                 return;
             }
             
-            _backGroundView = this.Instantiate(ControllerResources, prefab);
+            this.Instantiate(ControllerResources, prefab);
         }
 
         protected override void OnStop()

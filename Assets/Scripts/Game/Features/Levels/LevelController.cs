@@ -6,6 +6,7 @@ using Core.Controller;
 using Core.Extensions;
 using Cysharp.Threading.Tasks;
 using Game.EventBus;
+using Game.Features.Levels.Components.Element.Models;
 using Game.Features.Levels.Components.Element.Views;
 using Game.Features.Levels.Components.Grid.Views;
 using Game.Features.Levels.Models;
@@ -122,15 +123,12 @@ namespace Game.Features.Levels
 
         private async UniTask NormalizationAsync(CancellationToken token)
         {
+            bool hasChanges;
             do
             {
                 await ElementsFail(token);
-            } while (TryDestroyElements());
-
-            foreach (var elementView in _elementViews)
-            {
-                elementView.Release();
-            }
+                hasChanges = await HandleElementStates();
+            } while (hasChanges);
         }
 
         private async UniTask ElementsFail(CancellationToken token)
@@ -157,7 +155,7 @@ namespace Game.Features.Levels
 
                     upperOrder += ColumnCount;
                 }
-                
+
                 for (var j = 0; j < _elements.Count; j++)
                 {
                     var target = j >= _emptyElements.Count ? _emptyElements.Last() : _emptyElements[j];
@@ -168,15 +166,129 @@ namespace Game.Features.Levels
                 _emptyElements.Clear();
                 _elements.Clear();
             }
-            
+
             await tasks;
         }
 
-        private bool TryDestroyElements()
+        private async UniTask<bool> HandleElementStates()
         {
+            var destroyResult = await TryDestroyElements();
+
+            foreach (var elementView in _elementViews)
+            {
+                elementView.Release();
+            }
+
+            return destroyResult;
+        }
+
+        private async UniTask<bool> TryDestroyElements()
+        {
+            var lockElements = _elementViews.Where(e => e.IsLocked).ToArray();
+            var destroyed = false;
+
+            foreach (var element in lockElements)
+            {
+                if (element.InCombo)
+                {
+                    continue;
+                }
+
+                var combination = new CombinationElementModel(element, Directions.None);
+                FindCombination(combination);
+
+                var allCombinationElements = combination.AllElements;
+                if (!IsValidCombination(allCombinationElements))
+                {
+                    continue;
+                }
+
+                var destroyAnimationTask = new List<UniTask>();
+                allCombinationElements.ForEach(e => destroyAnimationTask.Add(e.PlayDestroy()));
+
+                await destroyAnimationTask;
+
+                destroyed = true;
+            }
+
+            return destroyed;
+        }
+
+        private void FindCombination(CombinationElementModel combination)
+        {
+            var rightElementOrder = combination.Element.Order + 1;
+            if (combination.StartDirection != Directions.Right && rightElementOrder % ColumnCount != 0)
+            {
+                var element = _elementViews.FirstOrDefault(e => e.Order == rightElementOrder);
+                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                {
+                    AddChildCombination(element, Directions.Left);
+                }
+            }
+
+            var downElementOrder = combination.Element.Order - ColumnCount;
+            if (combination.StartDirection != Directions.Down && downElementOrder > -1)
+            {
+                var element = _elementViews.FirstOrDefault(e => e.Order == downElementOrder);
+                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                {
+                    AddChildCombination(element, Directions.Up);
+                }
+            }
+
+            var leftElementOrder = combination.Element.Order - 1;
+            if (combination.StartDirection != Directions.Left && leftElementOrder > -1 &&
+                leftElementOrder % ColumnCount != ColumnCount - 1)
+            {
+                var element = _elementViews.FirstOrDefault(e => e.Order == leftElementOrder);
+                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                {
+                    AddChildCombination(element, Directions.Right);
+                }
+            }
+
+            var upElementOrder = combination.Element.Order + ColumnCount;
+            if (combination.StartDirection != Directions.Up && upElementOrder < _elementViews.Length)
+            {
+                var element = _elementViews.FirstOrDefault(e => e.Order == upElementOrder);
+                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                {
+                    AddChildCombination(element, Directions.Down);
+                }
+            }
+
+            return;
+
+            void AddChildCombination(IElementView element, Directions elementDirection)
+            {
+                var childCombination = new CombinationElementModel(element, elementDirection);
+                combination.Neighbors.Add(childCombination);
+
+                FindCombination(childCombination);
+            }
+        }
+
+        private bool IsValidCombination(List<IElementView> elements)
+        {
+            if (elements.Count <= 2)
+            {
+                return false;
+            }
+
+            for (var i = 0; i <= elements.Count - 1; i++)
+            {
+                if ((elements.Any(e => e.Order == elements[i].Order + 1) &&
+                     elements.Any(e => e.Order == elements[i].Order - 1))
+                    || (elements.Any(e => e.Order == elements[i].Order + ColumnCount) &&
+                        elements.Any(e => e.Order == elements[i].Order - ColumnCount)))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
-        
+
         private void GetViews()
         {
             _elementViews = new IElementView[ColumnCount * RowCount];

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using Core.Views;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -18,18 +19,30 @@ namespace Game.Features.Levels.Components.Element.Views
         private static readonly int IsAlive = Animator.StringToHash("IsAlive");
 
         private ElementModel _model;
+        private int _destroyAnimationMs;
 
-        public int Id => _model.Id;
+        public int Id { get; private set; }
         public int Order => _spriteRenderer.sortingOrder;
         public Vector2 Position { get; private set; }
         public bool IsLocked { get; private set; }
+        public bool InCombo { get; private set; }
 
         public void Initialize(ElementModel model)
         {
             _model = model;
+            Id = model.Id;
             
             _animator.runtimeAnimatorController = model.AnimatorController;
             _spriteRenderer.sprite = model.Sprite;
+            _spriteRenderer.enabled = true;
+            
+            if (Id < 0)
+            {
+                return;
+            }
+            
+            var destroyAnimation = _animator.runtimeAnimatorController.animationClips.FirstOrDefault(a => a.name.Contains("Destroy"));
+            _destroyAnimationMs = (int)(destroyAnimation.length * 1000);
         }
 
         public void Setup(Vector2 position, float size, int order)
@@ -54,19 +67,33 @@ namespace Game.Features.Levels.Components.Element.Views
             _transform.gameObject.SetActive(false);
         }
 
-        public void PlayDestroy()
+        public async UniTask PlayDestroy()
         {
+            Id = -1;
+            
             Lock();
+
+            var waitAnimation = UniTask.Delay((int)_destroyAnimationMs);
             SetAlive(false);
+
+            await waitAnimation;
+            
+            _spriteRenderer.enabled = false;
+        }
+
+        public void TakeInCombo()
+        {
+            InCombo = true;
         }
 
         public void Lock()
         {
-            IsLocked = true;
+            IsLocked = Id > -1;
         }
 
         public void Release()
         {
+            InCombo = false;
             IsLocked = false;
         }
 
@@ -94,13 +121,12 @@ namespace Game.Features.Levels.Components.Element.Views
 
         private void SetAlive(bool isAlive)
         {
-            if (Id < 0)
+            if (_model.Id < 0)
             {
                 return;
             }
-
+            
             _animator.SetBool(IsAlive, isAlive);
-            _spriteRenderer.enabled = isAlive;
         }
     }
 }

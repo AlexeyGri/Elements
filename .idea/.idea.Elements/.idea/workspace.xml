@@ -5,30 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82ca2ece-298b-4d66-803e-23b048f6593e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Services/ISaveLoadService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Services/ISaveLoadService.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Services/SaveLoadService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Services/SaveLoadService.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/IInputManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/IInputManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/InputManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/InputManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/Models.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Models/CombinationElementModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Models/CombinationElementModel.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Elements/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Elements/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/ElementBase.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/ElementBase.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/GameInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/GameInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Models/Directions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/Models/Directions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Models/Directions.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/Models/Directions.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Fire/Animations/FireController.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Fire/Animations/FireController.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Fire/Animations/FireDestroy.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Fire/Animations/FireDestroy.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Water/Animations/WaterController.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Water/Animations/WaterController.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Water/Animations/WaterDestroy.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Elements/Water/Animations/WaterDestroy.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Background/BackgroundController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Background/BackgroundController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Views/ElementView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Views/ElementView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Views/IElementView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Element/Views/IElementView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Grid/Models/CellModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Grid/Models/CellModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Grid/Views/GridView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Grid/Views/GridView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Grid/Views/IGridView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/Components/Grid/Views/IGridView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputSystem/TouchScreenInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/TouchScreenInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputSystem/TouchScreenInput.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/TouchScreenInput.inputactions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputSystem/Models/Directions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputSystem/Models/Directions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +32,7 @@
     <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/27124aa0e30a41659b903b822b959bc746ac00/3b/b41ade41/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/27124aa0e30a41659b903b822b959bc746ac00/53/f822925b/AsyncMethodBuilderCore.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/322faffdaffe4185aca46a3b5986ae3df200/50/b89d8b27/CombinationElementModel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/70471b9615aa4ecfa3ed1abb95b7383210fc00/96/36fd7c87/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb81df0c49c643b1a04d9fc6ccca2433175400/23/c4adde19/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb81df0c49c643b1a04d9fc6ccca2433175400/95/47ee5619/Component.cs" root0="SKIP_HIGHLIGHTING" />
@@ -54,6 +44,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Services/IPool.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask@f213ff497e/Runtime/UniTask.Run.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask@f213ff497e/Runtime/UniTaskCompletionSource.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask@f213ff497e/Runtime/UniTaskExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask@f213ff497e/Runtime/UnityAsyncExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/InputModules/BaseInput.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.visualscripting@1.9.2/Runtime/VisualScripting.Flow/ScriptGraphAsset.cs" root0="SKIP_HIGHLIGHTING" />
@@ -130,10 +121,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="12040">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="20104">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="12040" />
+      <option name="pid" value="20104" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -155,7 +146,8 @@
       <workItem from="1748279095325" duration="30741000" />
       <workItem from="1748415397049" duration="5109000" />
       <workItem from="1748422604276" duration="57546000" />
-      <workItem from="1748613228964" duration="10758000" />
+      <workItem from="1748613228964" duration="30534000" />
+      <workItem from="1748788175131" duration="4862000" />
     </task>
     <servers />
   </component>
@@ -185,42 +177,159 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
-          <line>266</line>
-          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="261" containingFunctionPresentation="Method 'SwitchElementsAsync'">
+          <line>202</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="195" containingFunctionPresentation="Method 'TryDestroyElements'">
             <startOffsets>
-              <option value="8412" />
+              <option value="6335" />
             </startOffsets>
             <endOffsets>
-              <option value="8620" />
+              <option value="6344" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="103" />
+          <option name="timeStamp" value="145" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
-          <line>91</line>
-          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="91" containingFunctionPresentation="Method 'OnSwipe'">
+          <line>200</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="193" containingFunctionPresentation="Method 'TryDestroyElements'">
             <startOffsets>
-              <option value="2700" />
+              <option value="6248" />
             </startOffsets>
             <endOffsets>
-              <option value="2754" />
+              <option value="6296" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="105" />
+          <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
-          <line>79</line>
-          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="79" containingFunctionPresentation="Method 'OnTouchStartPosition'">
+          <line>277</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="253" containingFunctionPresentation="Method 'IsValidCombination'">
             <startOffsets>
-              <option value="2346" />
+              <option value="9311" />
             </startOffsets>
             <endOffsets>
-              <option value="2347" />
+              <option value="9356" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="106" />
+          <option name="timeStamp" value="150" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>288</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="265" containingFunctionPresentation="Method 'IsValidCombination'">
+            <startOffsets>
+              <option value="9794" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9807" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="151" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>272</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="248" containingFunctionPresentation="Method 'IsValidCombination'">
+            <startOffsets>
+              <option value="9215" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9239" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="153" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>189</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="187" containingFunctionPresentation="Method 'TryDestroyElements'">
+            <startOffsets>
+              <option value="5870" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5907" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="156" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>174</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="172" containingFunctionPresentation="Method 'HandleElementStates'">
+            <startOffsets>
+              <option value="5459" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5506" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="157" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>176</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="174" containingFunctionPresentation="Method 'HandleElementStates'">
+            <startOffsets>
+              <option value="5520" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5562" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="158" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>181</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="179" containingFunctionPresentation="Method 'HandleElementStates'">
+            <startOffsets>
+              <option value="5643" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5664" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="159" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>185</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="183" containingFunctionPresentation="Method 'TryDestroyElements'">
+            <startOffsets>
+              <option value="5741" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5742" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="160" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>302</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="297" containingFunctionPresentation="Method 'GetViews'">
+            <startOffsets>
+              <option value="10313" />
+            </startOffsets>
+            <endOffsets>
+              <option value="10366" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Features/Levels/LevelController.cs</url>
+          <line>218</line>
+          <properties documentPath="C:\Users\User\Elements\Assets\Scripts\Game\Features\Levels\LevelController.cs" initialLine="218" containingFunctionPresentation="Method 'FindCombination'">
+            <startOffsets>
+              <option value="6756" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6810" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="170" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
