@@ -7,6 +7,7 @@ using Game.EventBus;
 using Game.Features.Levels.Events;
 using Game.Features.Levels.Models;
 using Game.Services;
+using UnityEngine;
 
 namespace Game.Features.Levels
 {
@@ -80,10 +81,10 @@ namespace Game.Features.Levels
 
         private async UniTask<bool> TryLoadLevelAsync(CancellationToken token)
         {
-            var levelLoadTasks = new List<UniTask<LevelModel>>();
+            var levelLoadTasks = new List<UniTask<Object>>();
             for (var i = 0; i < LevelCount; i++)
             {
-                var loadTask = LoadLevelAsync($"{ResourcePaths.LevelPath}i", token);
+                var loadTask = LoadLevelAsync($"{ResourcePaths.LevelPath}{i}", token);
                 levelLoadTasks.Add(loadTask);
             }
 
@@ -93,14 +94,17 @@ namespace Game.Features.Levels
                 return false;
             }
             
-            _levels.AddRange(loadingResult);
+            foreach (var model in loadingResult)
+            {
+                _levels.Add(model as LevelModel);
+            }
             
             return true;
         }
 
-        private UniTask<LevelModel> LoadLevelAsync(string path, CancellationToken token)
+        private UniTask<Object> LoadLevelAsync(string path, CancellationToken token)
         {
-            return _bundleProvider.LoadAssetAsync<LevelModel>(path, token);
+            return _bundleProvider.LoadAssetAsync<Object>(path, token);
         }
         
         private void OnLevelFinished(LevelFinishedEvent e)
