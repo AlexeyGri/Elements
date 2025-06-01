@@ -5,6 +5,7 @@ using System.Threading;
 using Core.Controller;
 using Core.Extensions;
 using Cysharp.Threading.Tasks;
+using Game.EventBus;
 using Game.Features.Levels.Components.Element.Views;
 using Game.Features.Levels.Components.Grid.Views;
 using Game.Features.Levels.Models;
@@ -19,22 +20,23 @@ namespace Game.Features.Levels
     {
         private readonly IBundleProvider _bundleProvider;
         private readonly IInputManager _inputManager;
+        private readonly IEventBus _eventBus;
         private readonly List<IElementView> _emptyElements = new();
         private readonly List<IElementView> _elements = new();
 
         private LevelModel _model;
         private GridView _gridView;
         private IElementView[] _elementViews;
-
         private IElementView _selectElement;
 
         private int ColumnCount => _model.GridModel.Columns;
         private int RowCount => _model.GridModel.Rows;
 
-        public LevelController(IBundleProvider bundleProvider, IInputManager inputManager)
+        public LevelController(IBundleProvider bundleProvider, IInputManager inputManager, IEventBus eventBus)
         {
             _bundleProvider = bundleProvider;
             _inputManager = inputManager;
+            _eventBus = eventBus;
         }
 
         public void SetArgs(LevelModel model)
@@ -120,7 +122,10 @@ namespace Game.Features.Levels
 
         private async UniTask NormalizationAsync(CancellationToken token)
         {
-            await ElementsFail(token);
+            do
+            {
+                await ElementsFail(token);
+            } while (TryDestroyElements());
 
             foreach (var elementView in _elementViews)
             {
@@ -167,6 +172,11 @@ namespace Game.Features.Levels
             await tasks;
         }
 
+        private bool TryDestroyElements()
+        {
+            return false;
+        }
+        
         private void GetViews()
         {
             _elementViews = new IElementView[ColumnCount * RowCount];

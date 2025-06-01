@@ -1,9 +1,7 @@
 ﻿using Core.Controller;
 using Core.Extensions;
-using Core.Utility;
 using Game.Features.Background.Views;
 using Game.Services;
-using UnityEngine;
 
 namespace Game.Featuries.Background
 {

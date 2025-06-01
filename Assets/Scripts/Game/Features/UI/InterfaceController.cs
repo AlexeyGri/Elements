@@ -11,7 +11,7 @@ namespace Game.Features.UI
 {
     public class InterfaceController : ControllerBase
     {
-        private const int Sec = 1000;
+        private const int ResetInterfaceTimeMs = 750;
         
         private readonly IBundleProvider _bundleProvider;
         private readonly IEventBus _eventBus;
@@ -65,7 +65,7 @@ namespace Game.Features.UI
         {
             _interfaceView.Hide();
             
-            await UniTask.Delay(Sec);
+            await UniTask.Delay(ResetInterfaceTimeMs);
             
             _interfaceView.Show();
         }

@@ -7,12 +7,13 @@ using Game.EventBus;
 using Game.Features.Levels.Events;
 using Game.Features.Levels.Models;
 using Game.Services;
-using UnityEngine;
 
 namespace Game.Features.Levels
 {
     public class LevelsController : ControllerBase
     {
+        private const int LevelCount = 3;
+        
         private readonly IBundleProvider _bundleProvider;
         private readonly IEventBus _eventBus;
         private readonly IControllerFactory _controllerFactory;
@@ -31,11 +32,15 @@ namespace Game.Features.Levels
         
         protected override async void OnStart()
         {
-            await TryLoadLevelAsync(Token);
-            if (Token.IsCancellationRequested)
+            var result = await TryLoadLevelAsync(Token).SuppressCancellationThrow();
+            if (result.IsCanceled || Token.IsCancellationRequested)
             {
+                _eventBus.Invoke(new LevelsLoadingEvent(LevelsLoadingResult.Fail));
+                
                 return;
             }
+            
+            _eventBus.Invoke(new LevelsLoadingEvent(LevelsLoadingResult.Success));
             
             _eventBus.Subscribe<LevelFinishedEvent>(OnLevelFinished);
             
@@ -75,22 +80,27 @@ namespace Game.Features.Levels
 
         private async UniTask<bool> TryLoadLevelAsync(CancellationToken token)
         {
-            var loadingResult = await UniTask.WhenAll(
-                _bundleProvider.LoadAssetAsync<Object>($"{ResourcePaths.LevelPath}0", token),
-                _bundleProvider.LoadAssetAsync<Object>($"{ResourcePaths.LevelPath}1", token),
-                _bundleProvider.LoadAssetAsync<Object>($"{ResourcePaths.LevelPath}2", token))
-                .SuppressCancellationThrow();
+            var levelLoadTasks = new List<UniTask<LevelModel>>();
+            for (var i = 0; i < LevelCount; i++)
+            {
+                var loadTask = LoadLevelAsync($"{ResourcePaths.LevelPath}i", token);
+                levelLoadTasks.Add(loadTask);
+            }
 
-            if (loadingResult.IsCanceled)
+            var loadingResult = await levelLoadTasks;
+            if (token.IsCancellationRequested)
             {
                 return false;
             }
             
-            _levels.Add(loadingResult.Result.Item1 as LevelModel);
-            _levels.Add(loadingResult.Result.Item2 as LevelModel);
-            _levels.Add(loadingResult.Result.Item3 as LevelModel);
-
+            _levels.AddRange(loadingResult);
+            
             return true;
+        }
+
+        private UniTask<LevelModel> LoadLevelAsync(string path, CancellationToken token)
+        {
+            return _bundleProvider.LoadAssetAsync<LevelModel>(path, token);
         }
         
         private void OnLevelFinished(LevelFinishedEvent e)
@@ -99,7 +109,7 @@ namespace Game.Features.Levels
             {
                 case LevelResults.Finished:
                 case LevelResults.Next:
-                    if (++_currentLevel >= _levels.Count)
+                    if (++_currentLevel >= LevelCount)
                     {
                         _currentLevel = 0;
                     }

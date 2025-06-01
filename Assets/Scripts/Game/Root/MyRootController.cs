@@ -46,12 +46,10 @@ namespace Game.Infra
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
-            }
-            finally
-            {
                 Stop();
                 Dispose();
+                
+                Debug.LogException(e);
             }
         }
 
@@ -66,14 +64,14 @@ namespace Game.Infra
 
         private UniTask<bool> TryInitializeGameAsync(CancellationToken token)
         {
-            var taskCompletionSource = new UniTaskCompletionSource<bool>().WithToken(token);
+            var initializeCompletionSource = new UniTaskCompletionSource<bool>().WithToken(token);
             
             _eventBus.Subscribe<ResourcesPreloadedEvent>(OnResourcesPreloadedWithResult);
             
             _initializeController = _controllerFactory.CrateController<InitializeController>();
             AddController(_initializeController);
 
-            return taskCompletionSource.Task;
+            return initializeCompletionSource.Task;
 
             void OnResourcesPreloadedWithResult(ResourcesPreloadedEvent e)
             {
@@ -81,7 +79,7 @@ namespace Game.Infra
                 
                 RemoveController(_initializeController);
                 
-                taskCompletionSource.TrySetResult(e.IsPreloaded);
+                initializeCompletionSource.TrySetResult(e.IsPreloaded);
             }
         }
     }

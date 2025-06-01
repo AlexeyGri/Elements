@@ -46,6 +46,8 @@ namespace Core.Controller
             }
 
             OnStop();
+            _resources.Clear();
+            
             _state = ControllerStates.Stopped;
         }
 
@@ -66,7 +68,6 @@ namespace Core.Controller
             OnDispose();
 
             _children.Clear();
-            _resources.Clear();
             
             _state = ControllerStates.Disposed;
         }

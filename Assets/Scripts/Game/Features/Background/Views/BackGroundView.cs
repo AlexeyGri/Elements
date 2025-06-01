@@ -9,7 +9,7 @@ namespace Game.Features.Background.Views
         
         private void Awake()
         {
-            _canvas.worldCamera = FindObjectOfType<Camera>();
+            _canvas.worldCamera = Camera.main;
         }
     }
 }
