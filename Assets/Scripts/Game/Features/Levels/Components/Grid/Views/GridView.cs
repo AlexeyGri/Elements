@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Views;
 using Game.Features.Levels.Components.Grid.Models;
 using UnityEngine;
 
 namespace Game.Features.Levels.Components.Grid.Views
 {
-    public class GridView : ViewBase, IGridView
+    public class GridView : MonoBehaviour, IGridView
     {
         [SerializeField] private Transform _transform;
 

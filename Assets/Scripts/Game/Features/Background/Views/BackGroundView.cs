@@ -1,9 +1,8 @@
-﻿using Core.Views;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Features.Background.Views
 {
-    public class BackGroundView : ViewBase, IBackGroundView
+    public class BackGroundView : MonoBehaviour
     {
         [SerializeField] private Canvas _canvas;
         

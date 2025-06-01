@@ -12,16 +12,18 @@ namespace Game.Features.Levels.Components.Element.Views
         int Order { get; }
         Vector2 Position { get; }
         bool IsLocked { get; }
-        bool InCombo { get; }
+        bool IsBusy { get; }
 
         void Initialize(ElementModel model);
         void Setup(Vector2 position, float size, int order);
         void Show();
         void Hide();
-        void TakeInCombo();
+        void TakeInBusiness();
         void Lock();
         void Release();
         UniTask PlayDestroy();
+        void PresetMoveData(Directions direction, Vector2 targetPosition, int order);
+        UniTask MoveToPresetData(CancellationToken token);
         UniTask MoveTo(Directions direction, Vector2 targetPosition, int order, CancellationToken token);
     }
 }

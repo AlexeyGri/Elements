@@ -17,7 +17,7 @@ namespace Game.Features.Levels.Components.Element.Models
 
         public CombinationElementModel(IElementView element, Directions direction)
         {
-            element.TakeInCombo();
+            element.TakeInBusiness();
             
             Element = element;
             StartDirection = direction;

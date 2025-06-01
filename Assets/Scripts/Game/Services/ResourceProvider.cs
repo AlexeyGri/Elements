@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using Core.Controller.Components;
-using Core.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ namespace Game.Services
             return loadOperation.Result;
         }
 
-        public (bool, T) TryGetInstanceFromPool<T>(IControllerResources resources, string path) where T : ViewBase
+        public (bool, T) TryGetInstanceFromPool<T>(IControllerResources resources, string path) where T : MonoBehaviour
         {
             if (_pool.TryGetInstance<T>(resources, path, out var instance))
             {
@@ -73,10 +72,10 @@ namespace Game.Services
         }
 
         private T Instantiate<T>(IControllerResources resources, T prefab, string key)
-            where T : ViewBase
+            where T : MonoBehaviour
         {
             var instance = Object.Instantiate(prefab);
-            instance.GameObject.SetActive(false);
+            instance.gameObject.SetActive(false);
             _pool.AddInstance(key, instance);
 
             _pool.TryGetInstance(resources, key, out instance);

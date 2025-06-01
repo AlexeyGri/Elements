@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading;
-using Core.Views;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game.Features.Levels.Components.Element.Models;
@@ -9,7 +8,7 @@ using UnityEngine;
 
 namespace Game.Features.Levels.Components.Element.Views
 {
-    public class ElementView : ViewBase, IElementView
+    public class ElementView : MonoBehaviour, IElementView
     {
         [Space] [SerializeField] private Transform _transform;
         [SerializeField] private Animator _animator;
@@ -20,12 +19,15 @@ namespace Game.Features.Levels.Components.Element.Views
 
         private ElementModel _model;
         private int _destroyAnimationMs;
+        private Directions _presetDirection;
+        private Vector2 _presetTargetPosition;
+        private int _presetOrder;
 
         public int Id { get; private set; }
         public int Order => _spriteRenderer.sortingOrder;
         public Vector2 Position { get; private set; }
         public bool IsLocked { get; private set; }
-        public bool InCombo { get; private set; }
+        public bool IsBusy { get; private set; }
 
         public void Initialize(ElementModel model)
         {
@@ -64,6 +66,7 @@ namespace Game.Features.Levels.Components.Element.Views
 
         public void Hide()
         {
+            Release();
             _transform.gameObject.SetActive(false);
         }
 
@@ -73,7 +76,7 @@ namespace Game.Features.Levels.Components.Element.Views
             
             Lock();
 
-            var waitAnimation = UniTask.Delay((int)_destroyAnimationMs);
+            var waitAnimation = UniTask.Delay(_destroyAnimationMs);
             SetAlive(false);
 
             await waitAnimation;
@@ -81,9 +84,9 @@ namespace Game.Features.Levels.Components.Element.Views
             _spriteRenderer.enabled = false;
         }
 
-        public void TakeInCombo()
+        public void TakeInBusiness()
         {
-            InCombo = true;
+            IsBusy = true;
         }
 
         public void Lock()
@@ -93,8 +96,20 @@ namespace Game.Features.Levels.Components.Element.Views
 
         public void Release()
         {
-            InCombo = false;
+            IsBusy = false;
             IsLocked = false;
+        }
+
+        public void PresetMoveData(Directions direction, Vector2 targetPosition, int order)
+        {
+            _presetDirection = direction;
+            _presetTargetPosition = targetPosition;
+            _presetOrder = order;
+        }
+
+        public UniTask MoveToPresetData(CancellationToken token)
+        {
+            return MoveTo(_presetDirection, _presetTargetPosition, _presetOrder, token);
         }
 
         public async UniTask MoveTo(Directions direction, Vector2 targetPosition, int order, CancellationToken token)

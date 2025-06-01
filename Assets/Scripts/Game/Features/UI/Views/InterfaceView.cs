@@ -1,10 +1,9 @@
 using System;
-using Core.Views;
 using Game.Features.UI.Views;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InterfaceView : ViewBase, IInterfaceView
+public class InterfaceView : MonoBehaviour, IInterfaceView
 {
     [SerializeField] private UIDocument _ui;
 

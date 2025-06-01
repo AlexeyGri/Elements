@@ -9,26 +9,29 @@ using Game.EventBus;
 using Game.Features.Levels.Components.Element.Models;
 using Game.Features.Levels.Components.Element.Views;
 using Game.Features.Levels.Components.Grid.Views;
+using Game.Features.Levels.Events;
 using Game.Features.Levels.Models;
 using Game.Services;
 using InputSystem;
 using InputSystem.Models;
+using ModestTree;
 using UnityEngine;
 
 namespace Game.Features.Levels
 {
     public class LevelController : ControllerBase
     {
+        private const int WaitBeforeNextLevel = 2000;
+
         private readonly IBundleProvider _bundleProvider;
         private readonly IInputManager _inputManager;
         private readonly IEventBus _eventBus;
-        private readonly List<IElementView> _emptyElements = new();
-        private readonly List<IElementView> _elements = new();
 
         private LevelModel _model;
         private GridView _gridView;
         private IElementView[] _elementViews;
         private IElementView _selectElement;
+        private CancellationTokenSource _movingTokenSource;
 
         private int ColumnCount => _model.GridModel.Columns;
         private int RowCount => _model.GridModel.Rows;
@@ -47,6 +50,8 @@ namespace Game.Features.Levels
 
         protected override async void OnStart()
         {
+            _movingTokenSource = CancellationTokenSource.CreateLinkedTokenSource(Token);
+
             var prefab = await _bundleProvider.LoadAssetAsync<GridView>(ResourcePaths.GridPath, Token);
             if (Token.IsCancellationRequested)
             {
@@ -66,6 +71,9 @@ namespace Game.Features.Levels
 
         protected override void OnStop()
         {
+            _movingTokenSource.Cancel();
+            _movingTokenSource.Dispose();
+
             _inputManager.TouchStartPosition -= OnTouchStartPosition;
             _inputManager.Swipe -= OnSwipe;
 
@@ -112,7 +120,12 @@ namespace Game.Features.Levels
                 return;
             }
 
-            await SwitchElementsAsync(_selectElement, direction, target, Token);
+            await SwitchElementsAsync(_selectElement, direction, target, _movingTokenSource.Token);
+            if (Token.IsCancellationRequested)
+            {
+                return;
+            }
+
             await NormalizationAsync(Token);
         }
 
@@ -127,18 +140,46 @@ namespace Game.Features.Levels
             do
             {
                 await ElementsFail(token);
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 hasChanges = await HandleElementStates();
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
             } while (hasChanges);
+
+            if (_elementViews.All(e => e.Id < 0))
+            {
+                await UniTask.Delay(WaitBeforeNextLevel, cancellationToken: token).SuppressCancellationThrow();
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                _eventBus.Invoke(new LevelFinishedEvent(LevelResults.Next));
+            }
         }
 
         private async UniTask ElementsFail(CancellationToken token)
         {
+            List<IElementView> emptyElements = new();
+            List<IElementView> elements = new();
+            
             var emptyCells = _elementViews.Where(e => e.Id < 0).ToArray();
             var tasks = new List<UniTask>();
 
             for (var i = 0; i < emptyCells.Length - 1; i++)
             {
-                _emptyElements.Add(emptyCells[i]);
+                if (emptyCells[i].IsBusy)
+                {
+                    continue;
+                }
+                
+                emptyElements.Add(emptyCells[i]);
 
                 var upperOrder = emptyCells[i].Order + ColumnCount;
                 while (upperOrder < _elementViews.Length)
@@ -146,25 +187,37 @@ namespace Game.Features.Levels
                     var upperNeighbour = _elementViews.FirstOrDefault(e => e.Order == upperOrder);
                     if (upperNeighbour.Id < 0)
                     {
-                        _emptyElements.Add(upperNeighbour);
+                        upperNeighbour.TakeInBusiness();
+                        emptyElements.Add(upperNeighbour);
                     }
                     else
                     {
-                        _elements.Add(upperNeighbour);
+                        elements.Add(upperNeighbour);
                     }
 
                     upperOrder += ColumnCount;
                 }
 
-                for (var j = 0; j < _elements.Count; j++)
+                if (elements.IsEmpty())
                 {
-                    var target = j >= _emptyElements.Count ? _emptyElements.Last() : _emptyElements[j];
-                    tasks.Add(
-                        SwitchElementsAsync(_elements[j], Directions.Down, target, token));
+                    emptyElements.Clear();
+                    continue;
                 }
 
-                _emptyElements.Clear();
-                _elements.Clear();
+                elements.AddRange(emptyElements);
+                var orders = elements.Select(e => e.Order).OrderBy(e => e).ToList();
+
+                for (var j = 0; j < elements.Count; j++)
+                {
+                    var target = elements.FirstOrDefault(e => e.Order == orders[j]);
+                    var direction = elements[j].Id < 0 ? Directions.Up : Directions.Down;
+                    elements[j].PresetMoveData(direction, target.Position, target.Order);
+                }
+
+                elements.ForEach(e => tasks.Add(e.MoveToPresetData(_cancellationTokenSource.Token)));
+
+                elements.Clear();
+                emptyElements.Clear();
             }
 
             await tasks;
@@ -173,6 +226,10 @@ namespace Game.Features.Levels
         private async UniTask<bool> HandleElementStates()
         {
             var destroyResult = await TryDestroyElements();
+            if (Token.IsCancellationRequested)
+            {
+                return false;
+            }
 
             foreach (var elementView in _elementViews)
             {
@@ -189,7 +246,7 @@ namespace Game.Features.Levels
 
             foreach (var element in lockElements)
             {
-                if (element.InCombo)
+                if (element.IsBusy)
                 {
                     continue;
                 }
@@ -220,7 +277,7 @@ namespace Game.Features.Levels
             if (combination.StartDirection != Directions.Right && rightElementOrder % ColumnCount != 0)
             {
                 var element = _elementViews.FirstOrDefault(e => e.Order == rightElementOrder);
-                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                if (element != null && combination.Element.Id == element.Id && !element.IsBusy)
                 {
                     AddChildCombination(element, Directions.Left);
                 }
@@ -230,7 +287,7 @@ namespace Game.Features.Levels
             if (combination.StartDirection != Directions.Down && downElementOrder > -1)
             {
                 var element = _elementViews.FirstOrDefault(e => e.Order == downElementOrder);
-                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                if (element != null && combination.Element.Id == element.Id && !element.IsBusy)
                 {
                     AddChildCombination(element, Directions.Up);
                 }
@@ -241,7 +298,7 @@ namespace Game.Features.Levels
                 leftElementOrder % ColumnCount != ColumnCount - 1)
             {
                 var element = _elementViews.FirstOrDefault(e => e.Order == leftElementOrder);
-                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                if (element != null && combination.Element.Id == element.Id && !element.IsBusy)
                 {
                     AddChildCombination(element, Directions.Right);
                 }
@@ -251,7 +308,7 @@ namespace Game.Features.Levels
             if (combination.StartDirection != Directions.Up && upElementOrder < _elementViews.Length)
             {
                 var element = _elementViews.FirstOrDefault(e => e.Order == upElementOrder);
-                if (element != null && combination.Element.Id == element.Id && !element.InCombo)
+                if (element != null && combination.Element.Id == element.Id && !element.IsBusy)
                 {
                     AddChildCombination(element, Directions.Down);
                 }
@@ -347,7 +404,7 @@ namespace Game.Features.Levels
                     targetIndex = selectIndex - 1;
                     break;
                 case Directions.Right:
-                    if (selectIndex % ColumnCount == ColumnCount)
+                    if ((selectIndex + 1) % ColumnCount == 0)
                     {
                         return false;
                     }
