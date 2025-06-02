@@ -21,7 +21,7 @@ namespace Game.Features.Levels.Components.Element.Views
         void TakeInBusiness();
         void Lock();
         void Release();
-        UniTask PlayDestroy();
+        UniTask PlayDestroyAsync(CancellationToken token);
         void PresetMoveData(Directions direction, Vector2 targetPosition, int order);
         UniTask MoveToPresetData(CancellationToken token);
         UniTask MoveTo(Directions direction, Vector2 targetPosition, int order, CancellationToken token);

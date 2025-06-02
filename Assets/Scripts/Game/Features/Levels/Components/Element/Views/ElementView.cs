@@ -10,6 +10,8 @@ namespace Game.Features.Levels.Components.Element.Views
 {
     public class ElementView : MonoBehaviour, IElementView
     {
+        private const int MsInSec = 1000;
+        
         [Space] [SerializeField] private Transform _transform;
         [SerializeField] private Animator _animator;
         [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -44,7 +46,7 @@ namespace Game.Features.Levels.Components.Element.Views
             }
             
             var destroyAnimation = _animator.runtimeAnimatorController.animationClips.FirstOrDefault(a => a.name.Contains("Destroy"));
-            _destroyAnimationMs = (int)(destroyAnimation.length * 1000);
+            _destroyAnimationMs = (int)(destroyAnimation.length * MsInSec);
         }
 
         public void Setup(Vector2 position, float size, int order)
@@ -70,7 +72,7 @@ namespace Game.Features.Levels.Components.Element.Views
             _transform.gameObject.SetActive(false);
         }
 
-        public async UniTask PlayDestroy()
+        public async UniTask PlayDestroyAsync(CancellationToken token)
         {
             Id = -1;
             
@@ -80,6 +82,10 @@ namespace Game.Features.Levels.Components.Element.Views
             SetAlive(false);
 
             await waitAnimation;
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
             
             _spriteRenderer.enabled = false;
         }

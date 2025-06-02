@@ -21,8 +21,6 @@ namespace Game.Features.Levels
 {
     public class LevelController : ControllerBase
     {
-        private const int WaitBeforeNextLevel = 2000;
-
         private readonly IBundleProvider _bundleProvider;
         private readonly IInputManager _inputManager;
         private readonly IEventBus _eventBus;
@@ -81,6 +79,9 @@ namespace Game.Features.Levels
             {
                 elementView.Hide();
             }
+            
+            _elementViews = null;
+            _gridView = null;
         }
 
         protected override void OnDispose()
@@ -154,12 +155,6 @@ namespace Game.Features.Levels
 
             if (_elementViews.All(e => e.Id < 0))
             {
-                await UniTask.Delay(WaitBeforeNextLevel, cancellationToken: token).SuppressCancellationThrow();
-                if (token.IsCancellationRequested)
-                {
-                    return;
-                }
-
                 _eventBus.Invoke(new LevelFinishedEvent(LevelResults.Next));
             }
         }
@@ -261,7 +256,7 @@ namespace Game.Features.Levels
                 }
 
                 var destroyAnimationTask = new List<UniTask>();
-                allCombinationElements.ForEach(e => destroyAnimationTask.Add(e.PlayDestroy()));
+                allCombinationElements.ForEach(e => destroyAnimationTask.Add(e.PlayDestroyAsync(Token)));
 
                 await destroyAnimationTask;
 

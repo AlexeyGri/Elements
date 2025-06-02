@@ -22,6 +22,10 @@ namespace Core.Controller.Components
                 {
                     resource.Dispose();
                 }
+                catch (MissingReferenceException _)
+                {
+                    // ignore)
+                }
                 catch (Exception e)
                 {
                     Debug.LogException(e);
