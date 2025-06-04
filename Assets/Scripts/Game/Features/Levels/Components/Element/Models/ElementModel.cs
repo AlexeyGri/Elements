@@ -1,5 +1,4 @@
-﻿using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Features.Levels.Components.Element.Models
 {
@@ -8,6 +7,6 @@ namespace Game.Features.Levels.Components.Element.Models
     {
         public int Id;
         public Sprite Sprite;
-        public AnimatorController AnimatorController;
+        public RuntimeAnimatorController AnimatorController;
     }
 }

@@ -114,7 +114,7 @@ namespace Game.Features.Levels
             }
 
             var target = _elementViews.FirstOrDefault(e => e.Order == index);
-            if (target == null || target.IsLocked || target.Id == _selectElement.Id ||
+            if (target == null || target.IsLocked ||
                 (index >= _selectElement.Order + ColumnCount && target.Id < 0))
             {
                 _selectElement = null;

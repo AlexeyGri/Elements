@@ -8,8 +8,7 @@ namespace InputSystem
     public class InputManager : IInputManager, IDisposable
     {
         private readonly TouchScreenInput _input;
-
-        private bool _isSwipe;
+        private readonly Camera _camera;
 
         public event Action<Vector2> TouchStartPosition = delegate { };
         public event Action<Directions> Swipe = delegate { };
@@ -18,10 +17,11 @@ namespace InputSystem
         
         public InputManager()
         {
+            _camera = Camera.main;
+            
             _input = new TouchScreenInput();
 
             _input.Touch.TouchInput.performed += OnTouchStarted;
-            _input.Touch.SwipeInput.canceled += OnTouchCanceled;
             _input.Touch.SwipeInput.performed += OnSwipe;
             
             _input.Enable();
@@ -32,7 +32,6 @@ namespace InputSystem
             _input.Disable();
             
             _input.Touch.TouchInput.performed -= OnTouchStarted;
-            _input.Touch.SwipeInput.canceled -= OnTouchCanceled;
             _input.Touch.SwipeInput.performed -= OnSwipe;
             
             _input.Dispose();
@@ -41,25 +40,13 @@ namespace InputSystem
         private void OnTouchStarted(InputAction.CallbackContext e)
         {
             _touchPosition = e.ReadValue<Vector2>();
-            _touchPosition = Camera.main.ScreenToWorldPoint(_touchPosition);
+            _touchPosition = _camera.ScreenToWorldPoint(_touchPosition);
 
             TouchStartPosition.Invoke(_touchPosition);
-        }
-
-        private void OnTouchCanceled(InputAction.CallbackContext e)
-        {
-            _isSwipe = false;
         }
         
         private void OnSwipe(InputAction.CallbackContext e)
         {
-            if (_isSwipe)
-            {
-                return;
-            }
-
-            _isSwipe = true;
-                
             var direction = e.ReadValue<Vector2>().normalized;
             
             if (direction == Vector2.up)
